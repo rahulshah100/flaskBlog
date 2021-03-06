@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+    <!-- Page Header -->
+    {# Here as we're assigning varchar to a variable & we know if something is stored in variable thn acc. to it ,var.
+    is decided in python so here our fname would become a string itself and so below we wirte filename=fname & not 'fname' #}
+
+    {#Also a very Important Note here ANywhere Using html comment gave me error (tho here written <!--Page Header-->)
+    & <!-Main Content->are not giving any errors)...of
+    jinja2.exceptions.TemplateSyntaxError: Expected an expression, got 'end of print statement'
+    So do remember Html comments should not be used in tmeplate inheritance but we've to use  jinja comment -> #} {#...#}
+
+    <header class="masthead" style="background-image: url('{{ url_for('static', filename=post.img_file) }}')">
+        <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+                <h1><i>{{post['title']}}</i></h1>
+                {# Here below as entire url_for is inside jinja so is our post.img_file & hence no specila jinja wrapper{{}} are requred around it #}
+              <span class="subheading">This is subheading by Admnin & this post was written on {{post.date}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {{post.content}}
+            {#Yes if we've h1 or any html tags in a content of variable then using jinja templating to display this variable -> it's html tags would be placed as it is & wont be rendered as html#}
+        </div>
+
+          <form action="/postdata" method="get">
+            <label for="formControlRange"><h2>Please Provide us i/p how much do u like this page :</h2></label>
+            <input type="range" class="form-control-range" id="formControlRange"name="bar"/>
+            <input type="submit" value="submit">
+          </form>
+
+        </div>
+      </div>
+{% endblock %}

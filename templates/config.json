@@ -1,0 +1,17 @@
+{
+    "params":
+    {
+      "local_server":"True",
+      "local_uri": "mysql+pymysql://root:@localhost/codingthunder",
+      "prod_uri":"mysql://root:@localhost/codingthunder",
+      "fb_url":"https://www.facebook.com/rahul.shah.79656921",
+      "tw_url":"https://twitter.com",
+      "gh_url": "https://github.com",
+      "gmail-user":"rahulkshah00@gmail.com" ,
+      "gmail-password": "bhpnbhpd",
+      "no_of_posts":4,
+      "admin_user": "rk",
+      "admin_password": "rk1234rk",
+      "upload_location": "C:\\Users\\Bhavin\\Desktop\\UploadFolderForFlaskServer"
+    }
+}
