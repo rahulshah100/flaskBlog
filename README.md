@@ -1,5 +1,5 @@
 # flaskBlog
-This a Blog created in Python-Flask.It is a multi-Page Website which has different pages for Home,About,Sample Posts,Contact.
+This a fully-functional BlogSite created in Python-Flask.It is a multi-Page Website which has different pages for Home,About,Sample Posts,Contact.
 It provides an admin panel where admin could add/edit/delete posts,files could be uploaded,background images could be changed.
 This Admin panel is enabled with a login/logout facility.
 Every Page inherits a same footer where Contact links of differenet social media handles are provided.
