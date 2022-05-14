@@ -1,0 +1,17 @@
+{
+  "params":
+  {
+    "local_server": "True",
+    "local_uri": "mysql://rahulshah:12345678@localhost/mycms",
+    "prod_uri": "mysql://rahulshah:12345678@localhost/mycms",
+    "fb_url": "https://www.facebook.com/",
+    "tw_url": "https://twitter.com/explore",
+    "gh_url": "https://github.com/",
+    "gmail-user": "rktempacc00@gmail.com",
+    "gmail-password": "pass@gmail00",
+    "no_of_posts": 5,
+    "admin_user":"myadmin",
+    "admin_password":"myadmin123",
+    "upload_location":"C:\\Users\\rshah8\\Desktop\\FlaskSite\\uploadfolders"
+  }
+}

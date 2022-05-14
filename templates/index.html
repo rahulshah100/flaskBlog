@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url({{url_for('static',filename='assets/img/home-bg.jpg')}})">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Your Blog Maintainer</h1>
+                    <span class="subheading">Share your knowledge out-loud</span>
+                    <hr />
+                    <div><a href="/login">Click Here for Admin Login</a></div>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            {%for post in posts%}
+            <div class="post-preview">
+                <a href="/post/{{post.slug}}">
+                    <h2 class="post-title">{{post.title}}</h2>
+                    <h3 class="post-subtitle">{{post.content[0:50]}}...</h3>
+                </a>
+                <p class="post-meta">
+                    Posted on
+                    <a href="#!"></a>
+                    {{post.date}}
+                </p>
+            </div>
+            <hr class="my-4" />
+            {%endfor%}
+
+            <!-- Pager-->
+            <div class="clearfix">
+                <a class="btn btn-primary float-left" href="{{prev}}">
+                    &larr; Older Posts 
+                </a>
+                <a class="btn btn-primary float-right" style="float: right !important;" href="{{next}}">
+                    Newer Posts →
+                </a>
+                <b>
+                    <div style="margin-top:50px; margin-bottom:30px;text-align: center;">
+                        <i>Page No: {{page}}</i>
+                    </div>
+                </b>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

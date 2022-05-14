@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url( {{url_for('static',filename='assets/img/about-bg.jpg')}} )">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Admin Panel</h1>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1>{{message}} Post</h1>
+                <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/edit/{{sno}}" method="post">
+                    <div class="form-floating">
+                        <input class="form-control" id="title" type="text" placeholder="Title"
+                            name="title" value="{{post.title}}" data-sb-validations="required" />
+                        <label for="title">Title</label>
+                        <div class="invalid-feedback" data-sb-feedback="name:required">Title is required.</div>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" id="slug" type="text" name="slug"
+                            placeholder="Slug" data-sb-validations="required" value="{{post.slug}}"/>
+                        <label for="email">Slug</label>
+                        <div class="invalid-feedback" data-sb-feedback="email:required">Slug is required.</div>                        
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" id="content" type="text" placeholder="Content"
+                            name="content" data-sb-validations="required" value="{{post.content}}"/>
+                        <label for="phone">Message</label>
+                        <div class="invalid-feedback" data-sb-feedback="phone:required">Content is required.
+                        </div>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" id="img_file" placeholder="Image file"
+                            name="img_file" style="height: 12rem" data-sb-validations="required" value="{{post.img_file}}"></textarea>
+                        <label for="message">Image File</label>
+                        <div class="invalid-feedback" data-sb-feedback="message:required">Image file is required.
+                        </div>
+                    </div>
+                    <br />
+                    <!-- Submit Button-->
+                    <button class="btn btn-primary text-uppercase" id="submitButton"
+                        type="submit">Submit</button>
+                    <div class="form-group">                           
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
