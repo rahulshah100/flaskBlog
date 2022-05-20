@@ -85,9 +85,15 @@
 </head>
 
 <body class="text-center" style="background-color: rgb(210, 209, 209);">
+    {% if loginfail %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width:100%; position: absolute;top:0; text-align:left;">
+      <strong>{{loginfail}}!</strong> You should check in on some of those fields below.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
 
   <main class="form-signin">
-    <form action="/login" method="post">
+    <form action="/login" method="post" style="border:1px solid black; padding:12px; border-radius:15px;">
       <img class="mb-4" src="{{url_for('static', filename='assets/img/admin.png')}}" alt="" width="52" height="46">
       <h1 class="h3 mb-3 fw-normal">Admin Log in</h1>
 
@@ -100,18 +106,18 @@
         <label for="pass">Password</label>
       </div>
 
-      <!-- <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div> -->
       <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
     </form>
+
+    <div style="text-align:center;margin-top:10%;">
+        <a href="/" style="color:black !important; text-decoration:none;">
+          <i> Click here to Go Back to <span style="color:blue">Home Page</span></i>
+        </a>
+    </div>
   </main>
 
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 </body>
-
 </html>

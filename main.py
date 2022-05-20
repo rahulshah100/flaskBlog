@@ -65,7 +65,7 @@ def home():
     else:
         prev = "/?page=" + str(page - 1)
         next = "/?page=" + str(page + 1)
-    return render_template('index.html', page=page, params=params, posts=post, prev=prev, next=next)
+    return render_template('index.html', page=page, params=params, posts=post, prev=prev, next=next, last=last)
 
 
 @app.route('/about')
@@ -103,6 +103,7 @@ def post_route(post_slug):
 
 @app.route('/login', methods=['GET', 'POST'])
 def dashboard():
+    loginfail = False
     if 'user' in session and session['user'] == params['admin_user']:
         posts = Posts.query.all()
         return render_template('dashboard.html', params=params, posts=posts)
@@ -114,7 +115,8 @@ def dashboard():
             posts = Posts.query.all()
             return render_template('dashboard.html', params=params, posts=posts)
         else:
-            return "<h1>Credentials Dont Match. Click <a href='/login'>here</a> to go back to Login Page.</h1>"
+            loginfail = "Credentials Don't Match"
+            return render_template('login.html', params=params, loginfail=loginfail)
     else:
         return render_template('login.html', params=params)
 
@@ -127,6 +129,7 @@ def edit(sno):
         else:
             message = "Edit"
 
+        # This Post request below is from edit.html to submit an edited or a new post. The above lines and the lines below the if request.method=="POST" are responsible to bring us to the edit.html where we can add or edit a post.
         if request.method == "POST":
             box_title = request.form.get('title')
             slug = request.form.get('slug')
@@ -160,8 +163,9 @@ def uploader():
         if request.method == 'POST':
             f = request.files['file1']
             f.save(os.path.join(params['upload_location'], secure_filename(f.filename)))
-            return "<h1>Uploaded Successfully. Click <a href='/login'>here</a> to go back to the admin dashboard.</h1>"
-
+            posts = Posts.query.all()
+            return render_template('dashboard.html', params=params, posts=posts, uploadMessage="File Uploaded Successfully")
+    return redirect('/login')
 
 @app.route('/logout')
 def logout():
@@ -177,5 +181,18 @@ def delete(sno):
         db.session.commit()
     return redirect('/login')
 
+# API to get a list of all available Images
+@app.route('/AvailableImageFiles', methods=['GET','POST'])
+def availImages():
+    astring = ''
+    firstiteration = 0
+    a = os.listdir(params['upload_location'])
+    for i in a:
+        if firstiteration == 0:
+            astring += i
+            firstiteration += 1
+        else:
+            astring += ', '+i
+    return astring
 
 app.run(debug=True)

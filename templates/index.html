@@ -7,10 +7,10 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>Your Blog Maintainer</h1>
-                    <span class="subheading">Share your knowledge out-loud</span>
+                    <h1>  T<i>e</i>ch Blogs</h1>
+                    <span class="subheading">Believe in sharing the knowledge out-loud</span>
                     <hr />
-                    <div><a href="/login">Click Here for Admin Login</a></div>
+                    <div><a href="/login" class="hoverWhite">Click Here for Admin Login</a></div>
                     <hr />
                 </div>
             </div>
@@ -39,15 +39,21 @@
 
             <!-- Pager-->
             <div class="clearfix">
+                {% if page!=1 %}
                 <a class="btn btn-primary float-left" href="{{prev}}">
                     &larr; Older Posts 
                 </a>
+                {% endif %}
+
+                {% if page!=last %}
                 <a class="btn btn-primary float-right" style="float: right !important;" href="{{next}}">
                     Newer Posts →
                 </a>
+                {% endif %}
+
                 <b>
-                    <div style="margin-top:50px; margin-bottom:30px;text-align: center;">
-                        <i>Page No: {{page}}</i>
+                    <div style="margin-top:50px; margin-bottom:30px;text-align: center; clear:both;">
+                        <i>Page No: {{page}} of {{last}}</i>
                     </div>
                 </b>
             </div>

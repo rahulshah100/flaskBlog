@@ -1,15 +1,28 @@
 {% extends "layout.html" %}
 
+{% block style %}
+    <!--This style tag will prevent change of background color as modal is opened up-->
+    <style>
+            .modal-backdrop {
+                 background-color: rgba(0,0,0,.0001) !important;
+            }
+
+            .hideIt{
+                display:none;
+            }
+    </style>
+{% endblock %}
+
 {% block body %}
 <!-- Page Header-->
-<header class="masthead" style="background-image: url( {{url_for('static',filename='assets/img/about-bg.jpg')}} )">
+<header class="masthead" style="background-image: url( {{url_for('static',filename='assets/img/admin-bg.jpg')}} )">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
                     <h1>Admin Panel</h1>
                     <hr>
-                    <a href="/logout">Click Here for Admin Logout</a>
+                    <div><a href="/logout" class="hoverWhite" style="text-shadow:2px 2px 12px white">Click Here for Admin Logout</a></div>
                     <hr>
                 </div>
             </div>
@@ -17,17 +30,42 @@
     </div>
 </header>
 
-<main class="mb-4">
+
+<!--Dismissable notification-->
+<div class="alert alert-warning alert-dismissible fade show hideIt" id="dismissNotifs1" role="alert" style="position:absolute; top:56%; width:100%;">
+  <strong>Post has been successfully Deleted.</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="alert alert-warning alert-dismissible fade show hideIt" id="dismissNotifs2" role="alert" style="position:absolute; top:56%; width:100%;">
+  <strong>Post has been successfully Added.</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="alert alert-warning alert-dismissible fade show hideIt" id="dismissNotifs3" role="alert" style="position:absolute; top:56%; width:100%;">
+  <strong>Post has been successfully Edited.</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+{% if uploadMessage %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert" style="position:absolute; top:56%; width:100%;">
+  <strong>{{uploadMessage}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<main class="mb-4" style="background-color: rgba(0,0,0,.0001) !important;">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 
                 <div class="gridClass">
                     <div id="fileUpload" style="zoom: 0.6; border-right: 2px solid black;">
-                        <h2>Upload A File</h2>                
+                        <h2>Upload Image</h2>
                         <form action="/uploader" method="post" enctype="multipart/form-data">
-                            <!--Had to write this enctype for syntax-->
-                            <input type="file" name="file1" title="Upload your File Here" />
+                            <!--Had to above write enctype, for syntax-->
+                            <input type="file" name="file1" title="Upload your File Here" required id="file" onchange="return fileValidation()"/>
                             <button type="submit" class="btn btn-primary" style="border-radius: 25px;">Submit</button>
                         </form>
                     </div>  
@@ -59,7 +97,7 @@
                             <td>{{post.title}}</td>
                             <td>{{post.date}}</td>
                             <td><a href="/edit/{{post.sno}}"><button class="btn btn-primary"> Edit </button></a></td>
-                            <td><a href="/delete/{{post.sno}}"><button class="btn btn-primary"> Delete </button></td>
+                            <td><a data-target="#delmodal" data-toggle="modal" href="/delete/{{post.sno}}" class="delbtn"><button class="btn btn-primary"> Delete </button></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -68,5 +106,98 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal" id="delmodal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog" >
+        <div class="modal-content" style="color:black; border-radius:10px;box-shadow:2px 2px 20px black">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete Post?</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            You're about to Delete an Article. Press Continue to Delete the Article.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" style="border-radius:10px" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" style="border-radius:10px" id="delmodalbtn" onclick="chlo()">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </main>
+
+<script>
+    // For displaying a Dismissable Alert on post Deletion
+    if(localStorage.getItem('postDelMessage') == 'True'){
+       dismissNotifs1.classList.remove("hideIt");
+       localStorage.clear();
+    }
+
+    if(localStorage.getItem('addedPost') == 'True'){
+       dismissNotifs2.classList.remove("hideIt");
+       localStorage.clear();
+    }
+
+    if(localStorage.getItem('editedPost') == 'True'){
+       dismissNotifs3.classList.remove("hideIt");
+       localStorage.clear();
+    }
+</script>
+
+<script>
+    //fetching all the delete button which are there in the table on the page
+    alldelbtns=Array.from(document.getElementsByClassName('delbtn'));
+
+    //For each of the delete button in the table, as it would be clicked, we will pass its href into modal's delete button.
+    alldelbtns.forEach(function(item){
+        item.addEventListener("click", function(e) {
+            document.getElementById('delmodalbtn').href=item.href;
+        })
+    })
+
+    //Now as such Modal's Delete button already has the href. We will just redirect to there, as modal's delete button is Pressed. Further as page will be reloaded, we want to show a notification for once so we use localStorage for that.
+    function chlo(e){window.location.replace(delmodalbtn.href); localStorage.setItem('postDelMessage',"True");}
+</script>
+
+
+<script>
+    //Citation: GeeksForGeeks. For Using the below function which validate if an image is only being uploaded.
+        function fileValidation() {
+            var fileInput =
+                document.getElementById('file');
+
+            var filePath = fileInput.value;
+
+            // Allowing file type
+            var allowedExtensions =
+                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type');
+                fileInput.value = '';
+                return false;
+            }
+            else
+            {
+
+                // Image preview
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(
+                            'imagePreview').innerHTML =
+                            '<img src="' + e.target.result
+                            + '"/>';
+                    };
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+        }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 {% endblock %}

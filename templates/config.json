@@ -12,6 +12,6 @@
     "no_of_posts": 5,
     "admin_user":"myadmin",
     "admin_password":"myadmin123",
-    "upload_location":"C:\\Users\\rshah8\\Desktop\\FlaskSite\\uploadfolders"
+    "upload_location":"C:\\Users\\rshah8\\Desktop\\FlaskSite\\static\\assets\\uploadfolders"
   }
 }
