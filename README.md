@@ -21,11 +21,8 @@ Dismissable alert notifications are provided wherever is needed
 - Clone this Project in your device. Use Pycharm or any Python IDE and run main.py. Click on the link on the console as the file is Ran. You should see the site opened up in a Browser.
 
 ## Demo
+https://user-images.githubusercontent.com/64270418/169624331-6053179f-61a0-4244-a1a7-271610fabc4b.mp4
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/64270418/169623551-da48e79f-af16-486d-9c1b-98c65aba34ac.gif)
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/64270418/169623561-668ba68e-478c-41fe-ad76-48879ba5386a.gif)
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/64270418/169623559-df0584e1-26bc-42c0-9162-2f3a36693b71.gif)
-![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/64270418/169623556-c1854fa5-8652-457c-bc48-3bbd8620967d.gif)
 
 ## Screenshots
 
