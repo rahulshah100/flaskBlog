@@ -62,7 +62,7 @@
                 
                 <div class="gridClass">
                     <div id="fileUpload" style="zoom: 0.6; border-right: 2px solid black;">
-                        <h2>Upload Image</h2>
+                        <h2>Upload Image <span style="font-family:'Times New Roman'">(*.jpg, *.png)</span></h2>
                         <form action="/uploader" method="post" enctype="multipart/form-data">
                             <!--Had to above write enctype, for syntax-->
                             <input type="file" name="file1" title="Upload your File Here" required id="file" onchange="return fileValidation()"/>
@@ -173,7 +173,7 @@
 
             // Allowing file type
             var allowedExtensions =
-                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                    /(\.jpg|\.jpeg|\.png)$/i;
 
             if (!allowedExtensions.exec(filePath)) {
                 alert('Invalid file type');

@@ -1,59 +1,56 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<!-- Page Header-->
-<header class="masthead" style="background-image: url( {{url_for('static',filename='assets/img/admin-bg.jpg')}} )">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="page-heading">
-                    <h1>Admin Panel</h1>                    
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url( {{url_for('static',filename='assets/img/admin-bg.jpg')}} )">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="page-heading">
+                        <h1>Admin Panel</h1>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
-<main class="mb-4">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <h1>{{message}} Post</h1>
-                <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/edit/{{sno}}" method="post" onsubmit="SetDismissableAlert()">
-                    <div class="form-floating">
-                        <input class="form-control" id="title" type="text" placeholder="Title"
-                            name="title" value="{{post.title}}" data-sb-validations="required" required/>
-                        <label for="title">Title</label>
-                        <div class="invalid-feedback" data-sb-feedback="name:required">Title is required.</div>
-                    </div>
-                    <div class="form-floating">
-                        <input class="form-control" id="slug" type="text" name="slug"
-                            placeholder="Slug" data-sb-validations="required" value="{{post.slug}}" required/>
-                        <label >Slug</label>
-                        <div class="invalid-feedback" data-sb-feedback="email:required">Slug is required.</div>                        
-                    </div>
-                    <div class="form-floating">
-                        <input class="form-control" id="content" type="text" placeholder="Content"
-                            name="content" data-sb-validations="required" value="{{post.content}}" required/>
-                        <label>Message</label>
-                        <div class="invalid-feedback" data-sb-feedback="phone:required">Content is required.
+    </header>
+    <main class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h1>{{message}} Post</h1>
+                    <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/edit/{{sno}}" method="post" onsubmit="SetDismissableAlert()">
+                        <div class="form-floating">
+                            <input class="form-control" id="title" type="text" placeholder="Title"
+                                name="title" value="{{post.title}}" data-sb-validations="required" required/>
+                            <label for="title">Title</label>
                         </div>
-                    </div>
-                    <div class="form-floating">
-                        <input class="form-control" id="img_file" placeholder="Image file"
-                            name="img_file" style="height: 12rem" data-sb-validations="required" value="{{post.img_file}}" required></textarea>
-                        <label>Image File</label>
-                        <div class="invalid-feedback" data-sb-feedback="message:required">Image file is required.
+                        <div class="form-floating">
+                            <input class="form-control" id="slug" type="text" name="slug"
+                                placeholder="Slug" data-sb-validations="required" value="{{post.slug}}" required/>
+                            <label >Slug</label>
                         </div>
-                    </div>
-                    <br />
-                    <!-- Submit Button-->
-                    <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Submit</button>
-                    <a href="/login" style="text-decoration:none; float:right; color:white" class="btn btn-primary text-uppercase" style="float:right"> Cancel/Go Back</a>
-                </form>
+                        <div class="form-floating">
+                            <input class="form-control" style="height: 12rem" id="content" type="text" placeholder="Content"
+                                name="content" data-sb-validations="required" value="{{post.content}}" required/>
+                            <label>Message</label>
+                            </div>
+                        <div class="form-floating mt-3">
+                            <div>
+                                <label for="img_file">Image File</label>
+                                <select name="img_file" id="img_file" required style="float:right;">
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Submit</button>
+                        <a href="/login" style="text-decoration:none; float:right; color:white" class="btn btn-primary text-uppercase" style="float:right"> Cancel/Go Back</a>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
+
     {% if message=="Add" %}
     <script>
         function SetDismissableAlert(){
@@ -69,5 +66,40 @@
         }
     </script>
     {% endif %}
+
+    <script type="text/javascript">
+        //Using fetch to obtain option's values for Image Dropdown. It will give all the filenames available in UploadFolders which is inside Static/asset. We will use fetch and will convert that data in an array.
+        let dropdownVals = null;
+        fetch('http://127.0.0.1:5000/AvailableImageFiles').then((response) => {
+            return response.json();
+        }).then((data) => {
+            dropdownVals = data.split(', '); //converting fetched json to an array
+            SetDropDownVals();
+        }).catch(function(error) {
+            console.log(error);
+        });
+
+        //For fetched values, it will make options out of them and put it in select input i.e.dropdown
+        function SetDropDownVals(){
+            let text='';
+
+            let SelectedImage='{{post.img_file}}';
+
+            for (let i = 0; i < dropdownVals.length; i++) {
+                if(dropdownVals[i]==SelectedImage){
+                    text += `<option value="${dropdownVals[i]}" selected>${dropdownVals[i]}</option>`;
+                }
+                else{
+                    text += `<option value="${dropdownVals[i]}">${dropdownVals[i]}</option>`;
+                }
+             }
+
+            img_file.innerHTML=text;
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 {% endblock %}

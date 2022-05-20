@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 import json
+from flask import jsonify
 from datetime import datetime
 from flask_mail import Mail
 import os
@@ -193,6 +194,6 @@ def availImages():
             firstiteration += 1
         else:
             astring += ', '+i
-    return astring
+    return jsonify(astring)
 
 app.run(debug=True)
