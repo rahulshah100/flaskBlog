@@ -14,7 +14,7 @@ Dismissable alert notifications are provided wherever is needed
 
 ## Steps to run the Project on your local machine
 
-- Install XAMPP, run MYSql.
+- Install XAMPP, run MYSql and Apache.
 
 - In Chrome (or any browser of your choice) go to http://localhost/phpmyadmin and make a database and tables as shown in ReplicateDB folder of this Repo. Enter Some Dummy Data in posts table.
 
